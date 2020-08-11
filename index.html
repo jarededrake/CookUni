@@ -21,8 +21,6 @@
                     <a class="nav-link" href="#">Welcome, {{names}}!</a>
                     <a class="nav-link" href="#">Share recipe</a>
                     <a class="nav-link" href="#">Logout</a>
-                    <a class="nav-link" href="#">Login</a>
-                    <a class="nav-link" href="#">Register</a>
                 </nav>
             </div>
         </header>
@@ -34,19 +32,20 @@
         </div>
 
         <main role="main" class="inner cover mt-5">
-            <h1 class="cover-heading">Coooooking University</h1>
-            <p class="lead">They say that food passes through the stomach, we say that food passes through CookUni...
-            </p>
+            <h1 class="cover-heading">Cooking University</h1>
+            Select <a id ="signin" class="nav-link" href="#">Login</a>
+            or <a id="register"class="nav-link" href="#">Sign Up</a>
+
         </main>
 
-        <h1 class="text-center">Our Recipes</h1>
-
-        <div id='foodNotFound'>
+        
+        <div id='foodNotFound' hidden = "true">
+            <h1 class="text-center">Our Recipes</h1>
             <img src="https://t4.ftcdn.net/jpg/00/62/17/31/240_F_62173114_ozantkVtkPgzL0fxssAkTqKX1FHPr0UW.jpg" />
             <h3>Food not found...</h3>
         </div>
 
-        <div id="sharedRecipes">
+        <div id="sharedRecipes" hidden = "true">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
@@ -79,7 +78,7 @@
                 </div>
             </div>
 
-            <div class="container">
+            <div class="container" hidden = "true">
                 <div class="row">
 
                     <!--Grain-Food-Template-->
@@ -214,7 +213,7 @@
             </div>
         </div>
 
-        <div class="row form-layout p-5">
+        <div class="row form-layout p-5" hidden="true">
             <div class="col-md-12">
                 <div class="recepieInfo">
                     <div class="detailsFoodImage">
@@ -246,7 +245,7 @@
             </div>
         </div>
 
-        <form class="text-center p-5 form-layout" action="#" method="POST" id="share-receipt-form">
+        <form class="text-center p-5 form-layout" action="#" method="POST" id="share-receipt-form" hidden="true">
             <p class="h4 mb-4">Share Recipe</p>
 
             <input type="text" id="defaultRecepieShareMeal" name="meal" class="form-control mb-4" placeholder="Meal">
@@ -275,7 +274,7 @@
             <button class="btn btn-danger w-25 m-auto my-4 btn-block" type="submit">Share it</button>
         </form>
 
-        <form class="text-center p-5 form-layout" action="#" method="POST" id="edit-receipt-form">
+        <form class="text-center p-5 form-layout" action="#" method="POST" id="edit-receipt-form" hidden="true">
             <p class="h4 mb-4">Edit Recipe</p>
         
             <input type="text" id="defaultRecepieEditMeal" name="meal" class="form-control mb-4" placeholder="Meal"
@@ -305,37 +304,37 @@
         
         </form>
 
-        <form class="text-center p-5 form-layout" action="#" method="POST">
+        <form id="signup" class="text-center p-5 form-layout" action="#" hidden="true"> <!--I removed the method "POST" to see what would happen-->
 
             <p class="h4 mb-4">Sign up</p>
 
             <div class="form-row mb-4">
                 <div class="col">
 
-                    <input type="text" id="defaultRegisterFormFirstName" class="form-control" name="firstName"
+                    <input id="signupfirstname"type="text" id="defaultRegisterFormFirstName" class="form-control" name="firstName"
                         placeholder="First name">
                 </div>
                 <div class="col">
 
-                    <input type="text" id="defaultRegisterFormLastName" class="form-control" name="lastName"
+                    <input id="signuplastname"type="text" id="defaultRegisterFormLastName" class="form-control" name="lastName"
                         placeholder="Last name">
                 </div>
             </div>
 
-            <input type="text" id="defaultRegisterFormUsername" class="form-control mb-4" name="username"
+            <input id="signupusername"type="text" id="defaultRegisterFormUsername" class="form-control mb-4" name="username"
                 placeholder="Username">
-            <input type="password" id="defaultRegisterFormPassword" class="form-control" name="password"
+            <input id="signuppassword"type="password" id="defaultRegisterFormPassword" class="form-control" name="password"
                 placeholder="Password">
             <hr>
-            <input type="password" id="defaultRegisterRepeatPassword" class="form-control" name="repeatPassword"
+            <input id="signuprepeatpassword"type="password" id="defaultRegisterRepeatPassword" class="form-control" name="repeatPassword"
                 placeholder="Repeat Password">
-            <button class="btn btn-danger my-4 btn-block w-25 m-auto" type="submit">Sign up</button>
+            <button id="signupbutton"class="btn btn-danger my-4 btn-block w-25 m-auto" type="submit">Sign up</button>
 
         </form>
 
-        <form class="text-center p-5 form-layout" action="#">
+        <form id="sign-in" class="text-center p-5 form-layout" action="#" hidden="true">
 
-            <p class="h4 mb-4">Sign in</p>
+            <p class="h4 mb-4">Log in</p>
 
             <input type="text" id="defaultRegisterFormUsername" name="username" class="form-control mb-4"
                 placeholder="Username">
@@ -344,7 +343,7 @@
                 placeholder="Password">
             <hr>
 
-            <button id = "signInButton" class="btn btn-danger w-25 m-auto my-4 btn-block">Sign in</button>
+            <button id = "signInButton" class="btn btn-danger w-25 m-auto my-4 btn-block">Log in</button>
 
         </form>
 
@@ -364,6 +363,7 @@
 <script src="./node_modules/sammy/lib/sammy.js"></script>
 <script src="./node_modules/sammy/lib/plugins/sammy.handlebars.js"></script>
 <script src="./scripts/scripts.js"></script>
+<script src="./notifyJS/notify.js"></script>
 <!--My Libraries-->
 <!--????-->
 <!--????-->
