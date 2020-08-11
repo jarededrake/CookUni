@@ -87,7 +87,7 @@ document.getElementById("signupbutton").addEventListener("click", function(){
                 "firstName": document.getElementById("signupfirstname").value,
                 "lastName": document.getElementById("signuplastname").value
             };
-    console.log(data)
+    console.log(data.username);
     fetch("https://baas.kinvey.com/user/kid_SJqu6rsWD/", {
     method: "POST", 
     body: JSON.stringify(data),
@@ -96,14 +96,16 @@ document.getElementById("signupbutton").addEventListener("click", function(){
         'Content-type': 'application/json; charset=UTF-8'
     }
     }).then(response => {
+        console.log(response);
         if(response.ok) {
             $.notify("Sign up succesful!", {
                 position:"t c"
             });
+        
         } else {
             $.notify("Sign up unsuccesful, please try again", {
                 position:"t c"
-            });
+            })
         }
         return response.json();
     })
