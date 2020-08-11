@@ -82,6 +82,15 @@ document.getElementById("register").addEventListener("click", function() {
 //Click function to submit new sign up 
 
 document.getElementById("signupbutton").addEventListener("click", function(){
+    //UNCOMMENT ONCE THIS PART IS FULLY DONE
+    // let regex = /^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/
+    // if(document.getElementById("signupusername").value == "" || document.getElementById("signuppassword").value == "" || document.getElementById("signupfirstname").value == "" || document.getElementById("signuplastname").value == "") {
+    //     alert('Please Fill Out All Fields');
+    //   } else if(!document.getElementById("signupusername").value.match(regex) || document.getElementById("signupusername").value.length < 3 || document.getElementById("signupusername").value.length > 25) {
+    //     alert('Invalid username, please make sure user name: \n -> starts with a letter \n -> is between 3 and 25 characters \n -> contains only letters, digits and underscores');
+    //   } else if(document.getElementById("signuppassword").value !== document.getElementById("signuprepeatpassword")) {
+    //     alert("Password does not match.")
+    //   }
     let data = {"username": document.getElementById("signupusername").value,
                 "password": document.getElementById("signuppassword").value,
                 "firstName": document.getElementById("signupfirstname").value,
@@ -97,20 +106,33 @@ document.getElementById("signupbutton").addEventListener("click", function(){
     }
     }).then(response => {
         console.log(response);
-        if(response.ok) {
+        switch (response.status){
+            case 201:
             $.notify("Sign up succesful!", {
                 position:"t c"
             });
-        
-        } else {
+            var welcomeusername = document.getElementById("welcomeusername");
+            var text = document.createTextNode(`Welcome, ${data.username}`);
+            welcomeusername.appendChild(text);
+            document.getElementById("signup").hidden = true;
+            document.getElementById("register").hidden = true;
+            document.getElementById("loginorsignup").hidden = true;
+
+            break;
+            case 409:
             $.notify("Sign up unsuccesful, please try again", {
                 position:"t c"
-            })
-        }
+            });
+             break;
+            case 404:
+            $.notify("Sign up unsuccesful, please try again", {
+                position:"t c"
+            });
+             break;
+           }
         return response.json();
     })
 });
-
 
 //Click function to mkae sign in appear
 document.getElementById("signin").addEventListener("click", function() {

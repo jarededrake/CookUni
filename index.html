@@ -16,11 +16,12 @@
         <header class="masthead mb-auto">
             <div class="inner">
                 <h3 class="masthead-brand">CookUni</h3>
-                <nav class="nav nav-masthead justify-content-center">
+                <nav id="navbar"class="nav nav-masthead justify-content-center">
                     <a class="nav-link" href="#">Home</a>
-                    <a id="welcomename"class="nav-link" href="#">Welcome, {{names}}!</a>
+                    <!-- <a id="welcomename"class="nav-link" href="#">Welcome, {{names}}!</a> -->
                     <a class="nav-link" href="#">Share recipe</a>
                     <a class="nav-link" href="#">Logout</a>
+                    <p id="welcomeusername"class="nav-link" href="#"></p>
                 </nav>
             </div>
         </header>
@@ -32,9 +33,11 @@
         </div>
 
         <main role="main" class="inner cover mt-5">
-            <h1 class="cover-heading">Cooking University</h1>
+            <h1 class="cover-heading">Cooking University</h1> 
+            <div id="loginorsignup">
             Select <a id ="signin" class="nav-link" href="#">Login</a>
             or <a id="register"class="nav-link" href="#">Sign Up</a>
+            </div>
 
         </main>
 
