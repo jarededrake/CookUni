@@ -54,21 +54,21 @@ async function deleteRequest(url) {
 
 //LOGIN Function
 
-function login() {
-    let userName = document.getElementById("defaultRegisterFormUsername").value;
-    let password = document.getElementById("defaultRegisterFormPassword").value;
-    console.log(userName);
-    console.log(password);
-    const data = {
-        "username": userName, 
-        "password": password
-    }
-    authToken = "Basic " + btoa("kid_SJqu6rsWD:d1f460b6f7da483982c14860a3bfeed4") //btoa converts to base 64
-    const response = post("https://baas.kinvey.com/user/kid_SJqu6rsWD/login", data);
+// function login() {
+//     let userName = document.getElementById("defaultRegisterFormUsername").value;
+//     let password = document.getElementById("defaultRegisterFormPassword").value;
+//     console.log(userName);
+//     console.log(password);
+//     const data = {
+//         "username": userName, 
+//         "password": password
+//     }
+//     authToken = "Basic " + btoa("kid_SJqu6rsWD:d1f460b6f7da483982c14860a3bfeed4") //btoa converts to base 64
+//     const response = post("https://baas.kinvey.com/user/kid_SJqu6rsWD/login", data);
 
-}
+// }
 
-document.getElementById("signInButton").addEventListener("click", login)
+// document.getElementById("signInButton").addEventListener("click", login)
 
 //Click function to make sign up appear
 
@@ -96,7 +96,7 @@ document.getElementById("signupbutton").addEventListener("click", function(){
                 "firstName": document.getElementById("signupfirstname").value,
                 "lastName": document.getElementById("signuplastname").value
             };
-    console.log(data.username);
+    document.getElementById("loadingBox").style.display = "block";
     fetch("https://baas.kinvey.com/user/kid_SJqu6rsWD/", {
     method: "POST", 
     body: JSON.stringify(data),
@@ -105,40 +105,113 @@ document.getElementById("signupbutton").addEventListener("click", function(){
         'Content-type': 'application/json; charset=UTF-8'
     }
     }).then(response => {
-        console.log(response);
-        switch (response.status){
-            case 201:
-            $.notify("Sign up succesful!", {
-                position:"t c"
+        if(response.status == 409) {
+            $.notify("Username already exists", {
+                position:"t c",
+                autoHideDelay: 2000
             });
+        }
+        if(response.ok) {
+            document.getElementById("loadingBox").style.display = "none"
+            document.getElementById("userRegistration").style.display = "block"
+            setTimeout(function(){
+            document.getElementById("userRegistration").style.display = "none"
+            }, 2000);
+
+            response.json().then(data => {
+                authToken = data._kmd.authtoken;
+            });
+
             var welcomeusername = document.getElementById("welcomeusername");
             var text = document.createTextNode(`Welcome, ${data.username}`);
             welcomeusername.appendChild(text);
             document.getElementById("signup").hidden = true;
             document.getElementById("register").hidden = true;
             document.getElementById("loginorsignup").hidden = true;
-
-            break;
-            case 409:
-            $.notify("Sign up unsuccesful, please try again", {
-                position:"t c"
+            document.getElementById("signin").hidden = true;
+            document.getElementById("sharerecipe").hidden = false;
+            document.getElementById("logoutuser").hidden = false;
+        }else {
+            $.notify("Login unsuccesful, please try again 1", {
+                position:"t c",
+                autoHideDelay: 2000
             });
-             break;
-            case 404:
-            $.notify("Sign up unsuccesful, please try again", {
-                position:"t c"
-            });
-             break;
-           }
+        }
         return response.json();
     })
 });
 
-//Click function to mkae sign in appear
+//Click function to make sign in appear
 document.getElementById("signin").addEventListener("click", function() {
     document.getElementById("sign-in").hidden = false;
     if(document.getElementById("signup").hidden == false) {
         document.getElementById("signup").hidden = true;
     }
 });
+
+//Click function for log in 
+
+document.getElementById("signInButton").addEventListener("click", function() {
+    let data = {
+        "username": document.getElementById("defaultRegisterFormUsername").value,
+        "password": document.getElementById("defaultRegisterFormPassword").value
+        }
+    document.getElementById("loadingBox").style.display = "block";
+    fetch("https://baas.kinvey.com/user/kid_SJqu6rsWD/login", {
+        method: "POST", 
+        body: JSON.stringify(data),
+        headers: {
+                "Authorization": "Basic " + btoa("kid_SJqu6rsWD:d1f460b6f7da483982c14860a3bfeed4"),
+                'Content-type': 'application/json; charset=UTF-8'
+        }
+    }).then(response => {
+        document.getElementById("loadingBox").style.display = "none"
+        if(response.ok) {
+            // authToken = response._kmd.authtoken;x
+            // console.log(response.json())
+            $.notify("Login succesful!", {
+                position:"t c"
+            });
+            response.json().then(data => {
+                authToken = data._kmd.authtoken;
+            })
+            var welcomeusername = document.getElementById("welcomeusername");
+            var text = document.createTextNode(`Welcome, ${data.username}`);
+            welcomeusername.appendChild(text);
+            document.getElementById("signup").hidden = true;
+            document.getElementById("register").hidden = true;
+            document.getElementById("loginorsignup").hidden = true;
+            document.getElementById("signin").hidden = true;
+            document.getElementById("sharerecipe").hidden = false; //Share recipe and loutout are not showing up when loggin in
+            document.getElementById("logoutuser").hidden = false;
+        }else {
+            $.notify("Login unsuccesful, please try again", {
+                position:"t c"
+            });
+        }
+        return response.json();
+    })
+})
+
+//Click function for logout
+
+document.getElementById("logoutuser").addEventListener("click", function() {
+    fetch("https://baas.kinvey.com/user/kid_SJqu6rsWD/_logout", {
+        method: "POST",
+        headers: {
+            "Authorization": "Kinvey " + authToken,
+            'Content-type': 'application/json; charset=UTF-8'
+        }
+    }).then(response => {
+        console.log(response)
+    })
+    //REMOVE stuff from nav bar
+})
+
+
+
+
+
+
+
 

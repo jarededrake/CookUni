@@ -60,6 +60,7 @@ body {
   color: rgba(255, 255, 255, 1);
   background-color: transparent;
   border-bottom: .25rem solid transparent;
+  font-size: 21px;
 }
 
 .nav-masthead .nav-link:hover, .nav-masthead .nav-link:focus {
@@ -264,6 +265,10 @@ form textarea {
   text-align: center;
 }
 
+#userRegistration {
+  display: none;
+  text-align: center;
+}
 /*our-team-main*/
 
 /* .color-gray {

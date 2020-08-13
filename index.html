@@ -18,26 +18,26 @@
                 <h3 class="masthead-brand">CookUni</h3>
                 <nav id="navbar"class="nav nav-masthead justify-content-center">
                     <a class="nav-link" href="#">Home</a>
+                    <a id ="signin" class="nav-link" href="#">Login</a>
+                    <a id="register"class="nav-link" href="#">Register</a>
                     <!-- <a id="welcomename"class="nav-link" href="#">Welcome, {{names}}!</a> -->
-                    <a class="nav-link" href="#">Share recipe</a>
-                    <a class="nav-link" href="#">Logout</a>
+                    <a id="sharerecipe"class="nav-link" href="#" hidden="true">Share recipe</a>
                     <p id="welcomeusername"class="nav-link" href="#"></p>
+                    <a id="logoutuser"class="nav-link" href="#" hidden="true">Logout</a>
                 </nav>
             </div>
         </header>
 
         <div id="notifications">
             <div id="successBox" class="alert alert-success" role="alert">{Success Message...}</div>
-            <div id="loadingBox" class="alert alert-info" role="alert">Loading...</div>
+            <div id="loadingBox" class="alert alert-info" role="alert">Loading...</div> 
             <div id="errorBox" class="alert alert-danger" role="alert">{Error Message...}</div>
+            <div id="userRegistration" class="alert alert-info" role="alert">User registration successful.</div>
         </div>
 
         <main role="main" class="inner cover mt-5">
             <h1 class="cover-heading">Cooking University</h1> 
             <div id="loginorsignup">
-            Select <a id ="signin" class="nav-link" href="#">Login</a>
-            or <a id="register"class="nav-link" href="#">Sign Up</a>
-            </div>
 
         </main>
 
@@ -309,7 +309,7 @@
 
         <form id="signup" class="text-center p-5 form-layout" action="#" hidden="true"> <!--I removed the method "POST" to see what would happen-->
 
-            <p class="h4 mb-4">Sign up</p>
+            <p class="h4 mb-4">Register</p>
 
             <div class="form-row mb-4">
                 <div class="col">
