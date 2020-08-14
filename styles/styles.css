@@ -269,6 +269,26 @@ form textarea {
   display: none;
   text-align: center;
 }
+
+#userIdAlreadyExists {
+  display: none;
+  text-align: center;
+}
+
+#logoutsuccessful {
+  display: none;
+  text-align: center;
+}
+
+#loginsuccessful {
+  display: none;
+  text-align: center;
+}
+
+#invalidcredentials {
+  display: none;
+  text-align: center;
+}
 /*our-team-main*/
 
 /* .color-gray {

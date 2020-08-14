@@ -82,6 +82,10 @@ document.getElementById("register").addEventListener("click", function() {
 //Click function to submit new sign up 
 
 document.getElementById("signupbutton").addEventListener("click", function(){
+    document.getElementById("signupusername").value = "";
+    document.getElementById("signuppassword").value = "";
+    document.getElementById("signupfirstname").value = "";
+    document.getElementById("signuplastname").value = "";
     //UNCOMMENT ONCE THIS PART IS FULLY DONE
     // let regex = /^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/
     // if(document.getElementById("signupusername").value == "" || document.getElementById("signuppassword").value == "" || document.getElementById("signupfirstname").value == "" || document.getElementById("signuplastname").value == "") {
@@ -106,13 +110,14 @@ document.getElementById("signupbutton").addEventListener("click", function(){
     }
     }).then(response => {
         if(response.status == 409) {
-            $.notify("Username already exists", {
-                position:"t c",
-                autoHideDelay: 2000
-            });
+           document.getElementById("loadingBox").style.display = "none";
+           document.getElementById("userIdAlreadyExists").style.display = "block";
+           setTimeout(function(){
+            document.getElementById("userIdAlreadyExists").style.display = "none"
+            }, 2000);
         }
         if(response.ok) {
-            document.getElementById("loadingBox").style.display = "none"
+            document.getElementById("loadingBox").style.display = "none";
             document.getElementById("userRegistration").style.display = "block"
             setTimeout(function(){
             document.getElementById("userRegistration").style.display = "none"
@@ -132,16 +137,13 @@ document.getElementById("signupbutton").addEventListener("click", function(){
             document.getElementById("sharerecipe").hidden = false;
             document.getElementById("logoutuser").hidden = false;
         }else {
-            $.notify("Login unsuccesful, please try again 1", {
-                position:"t c",
-                autoHideDelay: 2000
-            });
+            document.getElementById("loadingBox").style.display = "none";
         }
         return response.json();
     })
 });
 
-//Click function to make sign in appear
+//Click function to make log in appear
 document.getElementById("signin").addEventListener("click", function() {
     document.getElementById("sign-in").hidden = false;
     if(document.getElementById("signup").hidden == false) {
@@ -152,6 +154,8 @@ document.getElementById("signin").addEventListener("click", function() {
 //Click function for log in 
 
 document.getElementById("signInButton").addEventListener("click", function() {
+    document.getElementById("defaultRegisterFormUsername").value = "";
+    document.getElementById("defaultRegisterFormPassword").value = "";
     let data = {
         "username": document.getElementById("defaultRegisterFormUsername").value,
         "password": document.getElementById("defaultRegisterFormPassword").value
@@ -165,13 +169,14 @@ document.getElementById("signInButton").addEventListener("click", function() {
                 'Content-type': 'application/json; charset=UTF-8'
         }
     }).then(response => {
+        // console.log(response.json())
         document.getElementById("loadingBox").style.display = "none"
         if(response.ok) {
-            // authToken = response._kmd.authtoken;x
-            // console.log(response.json())
-            $.notify("Login succesful!", {
-                position:"t c"
-            });
+            document.getElementById("loginsuccessful").style.display = "block"
+            setTimeout(function(){
+            document.getElementById("loginsuccessful").style.display = "none"
+            }, 2000);
+            document.getElementById("sign-in").hidden = true;
             response.json().then(data => {
                 authToken = data._kmd.authtoken;
             })
@@ -182,20 +187,23 @@ document.getElementById("signInButton").addEventListener("click", function() {
             document.getElementById("register").hidden = true;
             document.getElementById("loginorsignup").hidden = true;
             document.getElementById("signin").hidden = true;
-            document.getElementById("sharerecipe").hidden = false; //Share recipe and loutout are not showing up when loggin in
+            document.getElementById("sharerecipe").hidden = false; 
             document.getElementById("logoutuser").hidden = false;
-        }else {
-            $.notify("Login unsuccesful, please try again", {
-                position:"t c"
-            });
+        }else if(response.status = 401) {
+            document.getElementById("invalidcredentials").style.display = "block"
+            setTimeout(function(){
+            document.getElementById("invalidcredentials").style.display = "none"
+            }, 2000);
         }
-        return response.json();
+        console.log(response.json())
+        return response.json()
     })
 })
 
 //Click function for logout
 
 document.getElementById("logoutuser").addEventListener("click", function() {
+    document.getElementById("loadingBox").style.display = "block";
     fetch("https://baas.kinvey.com/user/kid_SJqu6rsWD/_logout", {
         method: "POST",
         headers: {
@@ -203,9 +211,23 @@ document.getElementById("logoutuser").addEventListener("click", function() {
             'Content-type': 'application/json; charset=UTF-8'
         }
     }).then(response => {
-        console.log(response)
+        if(response.ok) {
+            document.getElementById("loadingBox").style.display = "none";
+            response.json().then(data => {
+                authToken = data._kmd.authtoken;
+            })
+        document.getElementById("sharerecipe").hidden = true;
+        document.getElementById("welcomeusername").hidden = true;
+        document.getElementById("logoutuser").hidden = true;
+        document.getElementById("signin").hidden = false;
+        document.getElementById("register").hidden = false;
+        document.getElementById("logoutsuccessful").style.display = "block"
+            setTimeout(function(){
+            document.getElementById("logoutsuccessful").style.display = "none"
+            }, 2000);
+        }
     })
-    //REMOVE stuff from nav bar
+    
 })
 
 
