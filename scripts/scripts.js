@@ -1,75 +1,5 @@
 var authToken;
 
-//GET Function
-
-async function get(url) {
-    const response = await fetch(url, {
-        headers: {
-            Authorization: authToken
-        }
-    })
-    return response.json();
-}
-
-//POST Function 
-
-async function post(url, data) {
-    const response = await fetch(url, {
-        headers: {
-            Authorization: authToken,
-            "Content-Type": "application/json"
-        },
-        method: "POST",
-        body: data
-    }) 
-    return response.json();
-} 
-
-//PUT Function
-
-async function put(url, data) {
-    const response = await fetch(url, {
-        headers: {
-            Authorization: authToken,
-            "Content-Type": "application/json"
-        },
-        method: "PUT",
-        body: data
-    })
-    return response.json();
-} 
-
-//DELETE Function
-
-async function deleteRequest(url) {
-    const response = await fetch(url, {
-        headers: {
-            Authorization: authToken,
-            "Content-Type": "application/json"
-        },
-        method: "DELETE",
-    })
-    return response.json();
-} 
-
-//LOGIN Function
-
-// function login() {
-//     let userName = document.getElementById("defaultRegisterFormUsername").value;
-//     let password = document.getElementById("defaultRegisterFormPassword").value;
-//     console.log(userName);
-//     console.log(password);
-//     const data = {
-//         "username": userName, 
-//         "password": password
-//     }
-//     authToken = "Basic " + btoa("kid_SJqu6rsWD:d1f460b6f7da483982c14860a3bfeed4") //btoa converts to base 64
-//     const response = post("https://baas.kinvey.com/user/kid_SJqu6rsWD/login", data);
-
-// }
-
-// document.getElementById("signInButton").addEventListener("click", login)
-
 //Click function to make sign up appear
 
 document.getElementById("register").addEventListener("click", function() {
@@ -82,10 +12,10 @@ document.getElementById("register").addEventListener("click", function() {
 //Click function to submit new sign up 
 
 document.getElementById("signupbutton").addEventListener("click", function(){
-    document.getElementById("signupusername").value = "";
-    document.getElementById("signuppassword").value = "";
-    document.getElementById("signupfirstname").value = "";
-    document.getElementById("signuplastname").value = "";
+    // document.getElementById("signupusername").value = "";
+    // document.getElementById("signuppassword").value = "";
+    // document.getElementById("signupfirstname").value = "";
+    // document.getElementById("signuplastname").value = "";
     //UNCOMMENT ONCE THIS PART IS FULLY DONE
     // let regex = /^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/
     // if(document.getElementById("signupusername").value == "" || document.getElementById("signuppassword").value == "" || document.getElementById("signupfirstname").value == "" || document.getElementById("signuplastname").value == "") {
@@ -127,6 +57,13 @@ document.getElementById("signupbutton").addEventListener("click", function(){
                 authToken = data._kmd.authtoken;
             });
 
+            const loggedIn = storage.getData('userInfo') !== null;
+            if(loggedIn){
+                const username = JSON.parse(storage.getData('userInfo')).username;
+                context.loggedIn = loggedIn;
+                context.username = username;
+            }
+
             var welcomeusername = document.getElementById("welcomeusername");
             var text = document.createTextNode(`Welcome, ${data.username}`);
             welcomeusername.appendChild(text);
@@ -136,6 +73,8 @@ document.getElementById("signupbutton").addEventListener("click", function(){
             document.getElementById("signin").hidden = true;
             document.getElementById("sharerecipe").hidden = false;
             document.getElementById("logoutuser").hidden = false;
+            document.getElementById("foodNotFound").hidden = false;
+
         }else {
             document.getElementById("loadingBox").style.display = "none";
         }
@@ -154,8 +93,8 @@ document.getElementById("signin").addEventListener("click", function() {
 //Click function for log in 
 
 document.getElementById("signInButton").addEventListener("click", function() {
-    document.getElementById("defaultRegisterFormUsername").value = "";
-    document.getElementById("defaultRegisterFormPassword").value = "";
+    // document.getElementById("defaultRegisterFormUsername").value = "";
+    // document.getElementById("defaultRegisterFormPassword").value = "";
     let data = {
         "username": document.getElementById("defaultRegisterFormUsername").value,
         "password": document.getElementById("defaultRegisterFormPassword").value
@@ -169,7 +108,6 @@ document.getElementById("signInButton").addEventListener("click", function() {
                 'Content-type': 'application/json; charset=UTF-8'
         }
     }).then(response => {
-        // console.log(response.json())
         document.getElementById("loadingBox").style.display = "none"
         if(response.ok) {
             document.getElementById("loginsuccessful").style.display = "block"
@@ -178,7 +116,10 @@ document.getElementById("signInButton").addEventListener("click", function() {
             }, 2000);
             document.getElementById("sign-in").hidden = true;
             response.json().then(data => {
+                userID = data._id;
                 authToken = data._kmd.authtoken;
+                window.sessionStorage.setItem('user',data.username);
+                window.sessionStorage.setItem("loggedIn",data._kmd.authtoken);
             })
             var welcomeusername = document.getElementById("welcomeusername");
             var text = document.createTextNode(`Welcome, ${data.username}`);
@@ -189,13 +130,14 @@ document.getElementById("signInButton").addEventListener("click", function() {
             document.getElementById("signin").hidden = true;
             document.getElementById("sharerecipe").hidden = false; 
             document.getElementById("logoutuser").hidden = false;
+
+                        
         }else if(response.status = 401) {
             document.getElementById("invalidcredentials").style.display = "block"
             setTimeout(function(){
             document.getElementById("invalidcredentials").style.display = "none"
             }, 2000);
         }
-        console.log(response.json())
         return response.json()
     })
 })
@@ -230,8 +172,38 @@ document.getElementById("logoutuser").addEventListener("click", function() {
     
 })
 
+//Click function to make share recipe appear
+document.getElementById("sharerecipe").addEventListener("click", function() {
+    console.log(authToken);
+    document.getElementById("foodNotFound").hidden = true;
+    document.getElementById("share-receipt-form").hidden = false;
+});
+
+//Click function to share/create recipe
+document.getElementById("shareit").addEventListener("click", function() {
+console.log(authToken);
+let data = {
+    "meal": document.getElementById("defaultRecepieShareMeal").value,
+    "ingredients": document.getElementById("defaultRecepieShareIngredients").value,
+    "prepMethod": document.getElementById("defaultRecepieShareMethodOfPreparation").value,
+    "description": document.getElementById("defaultRecepieShareDescription").value,
+    "category": document.getElementById("category").value,
+    "foodImageURL": document.getElementById("defaultRecepieShareFoodImageURL").value,
+}
+fetch("https://baas.kinvey.com/appdata/kid_SJqu6rsWD/recipes", {
+method: "POST", 
+body: JSON.stringify(data),
+headers: {
+    "Authorization": "Kinvey " + authToken,
+    'Content-type': 'application/json; charset=UTF-8'
+}
+}).then(response => {
+        return response.json()
+    })
+})
 
 
+    
 
 
 

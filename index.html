@@ -47,7 +47,7 @@
         </main>
 
         
-        <div id='foodNotFound' hidden = "true">
+        <div id="foodNotFound" hidden = "true">
             <h1 class="text-center">Our Recipes</h1>
             <img src="https://t4.ftcdn.net/jpg/00/62/17/31/240_F_62173114_ozantkVtkPgzL0fxssAkTqKX1FHPr0UW.jpg" />
             <h3>Food not found...</h3>
@@ -253,7 +253,7 @@
             </div>
         </div>
 
-        <form class="text-center p-5 form-layout" action="#" method="POST" id="share-receipt-form" hidden="true">
+        <form class="text-center p-5 form-layout" action="#" id="share-receipt-form" hidden="true">
             <p class="h4 mb-4">Share Recipe</p>
 
             <input type="text" id="defaultRecepieShareMeal" name="meal" class="form-control mb-4" placeholder="Meal">
@@ -270,7 +270,7 @@
             <input type="text" id="defaultRecepieShareFoodImageURL" name="foodImageURL" class="form-control mb-4"
                 placeholder="Food Image URL...">
 
-            <select name="category">
+            <select id="category" name="category">
                 <option selected>Select category...</option>
                 <option selected>Vegetables and legumes/beans</option>
                 <option selected>Fruits</option>
@@ -279,10 +279,10 @@
                 <option selected>Lean meats and poultry, fish and alternatives</option>
             </select>
 
-            <button class="btn btn-danger w-25 m-auto my-4 btn-block" type="submit">Share it</button>
+            <button id="shareit" class="btn btn-danger w-25 m-auto my-4 btn-block" type="submit">Share it</button>
         </form>
 
-        <form class="text-center p-5 form-layout" action="#" method="POST" id="edit-receipt-form" hidden="true">
+        <form class="text-center p-5 form-layout" action="#" id="edit-receipt-form" hidden="true">
             <p class="h4 mb-4">Edit Recipe</p>
         
             <input type="text" id="defaultRecepieEditMeal" name="meal" class="form-control mb-4" placeholder="Meal"
