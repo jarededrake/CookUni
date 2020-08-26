@@ -39,6 +39,8 @@ body {
 }
 
 .cover-container {
+  display: flex;
+  flex-direction: column;
   max-width: 42em;
 }
 
@@ -222,6 +224,8 @@ form textarea {
   vertical-align: top;
   width: 29%;
   word-wrap: break-word;
+  color: black;
+  background-color: rgba(255, 255, 255, .7);
 }
 
 .detailsFoodImage {
@@ -254,6 +258,8 @@ form textarea {
 .recepieInfo {
   display: inline-block;
   width: 70%;
+  color: black;
+  background-color: rgba(255, 255, 255, .7);
 }
 
 .ingredient {
@@ -286,6 +292,11 @@ form textarea {
 }
 
 #invalidcredentials {
+  display: none;
+  text-align: center;
+}
+
+#recipeSuccessfullyCreated {
   display: none;
   text-align: center;
 }
