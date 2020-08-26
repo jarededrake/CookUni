@@ -12,19 +12,16 @@ document.getElementById("register").addEventListener("click", function() {
 //Click function to submit new sign up 
 
 document.getElementById("signupbutton").addEventListener("click", function(){
-    // document.getElementById("signupusername").value = "";
-    // document.getElementById("signuppassword").value = "";
-    // document.getElementById("signupfirstname").value = "";
-    // document.getElementById("signuplastname").value = "";
-    //UNCOMMENT ONCE THIS PART IS FULLY DONE
-    // let regex = /^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/
-    // if(document.getElementById("signupusername").value == "" || document.getElementById("signuppassword").value == "" || document.getElementById("signupfirstname").value == "" || document.getElementById("signuplastname").value == "") {
-    //     alert('Please Fill Out All Fields');
-    //   } else if(!document.getElementById("signupusername").value.match(regex) || document.getElementById("signupusername").value.length < 3 || document.getElementById("signupusername").value.length > 25) {
-    //     alert('Invalid username, please make sure user name: \n -> starts with a letter \n -> is between 3 and 25 characters \n -> contains only letters, digits and underscores');
-    //   } else if(document.getElementById("signuppassword").value !== document.getElementById("signuprepeatpassword")) {
-    //     alert("Password does not match.")
-    //   }
+    if(document.getElementById("signupusername").value.length < 3) {
+        alert("username needs to be at least 3 characters long");
+    } if(document.getElementById("signuppassword").value.length < 6) {
+        alert("password needs to be at least 6 characters long");
+    } if(document.getElementById("signupfirstname").value.length < 2) {
+        alert("first name needs to be at least 2 characters long")
+    } if(document.getElementById("signuplastname").value.length < 2) {
+        alert("last name needs to be at least 2 characters long")
+    }
+    else {
     let data = {"username": document.getElementById("signupusername").value,
                 "password": document.getElementById("signuppassword").value,
                 "firstName": document.getElementById("signupfirstname").value,
@@ -58,7 +55,7 @@ document.getElementById("signupbutton").addEventListener("click", function(){
                 sessionStorage.setItem('session', JSON.stringify(data));
                 let user = sessionStorage.getItem('session')
                 console.log(user)  
-                updateLoggedIn(data.username);
+                updateLoggedIn(data.firstName + " " + data.lastName);
             });
 
         }else {
@@ -66,6 +63,11 @@ document.getElementById("signupbutton").addEventListener("click", function(){
         }
         return response.json();
     })
+}
+    document.getElementById("signupusername").value = "";
+    document.getElementById("signuppassword").value = "";
+    document.getElementById("signupfirstname").value = "";
+    document.getElementById("signuplastname").value = "";
 });
 
 //Click function to make log in appear
@@ -251,24 +253,20 @@ function createdRecipes() {
             <div class="row">
                 <div class="col-lg-12">
                     <div class="our-team-main">
-
                         <div class="team-front">
                             <img src="https://cdn.pixabay.com/photo/2017/10/09/19/29/eat-2834549__340.jpg" />
                             <h3>${recipes[index].meal}</h3>
                             <p>${recipes[index].category}</p>
                         </div>
-
                         <div class="team-back">
                             <div class="back-side-info">
                                 <h4>Ingredients</h4>
                                 <ul>` + ingredients + `</ul>
                                 <a id="clicktoviewdetials_${recipes[index]._id}" href="#">View the recepie</a>
                             </div>
-
                             <img class="foodImage"
                                 src="${recipes[index].foodImageURL}"/>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -351,9 +349,6 @@ function recepieDetails() {
 
 
 
-//need to call API to edit recipe
-//need to call API to delete recipe
-//need to like recipe 
 
 
     
